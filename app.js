@@ -34,28 +34,34 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+// Mail was Received
 notifier(imap).on('mail',function(mail){
     // TODO: Parse Receiver from subject
     // TODO: Parse text body, generate the gif - save it somewhere 
     // TODO: Generate UUID tag it to 1px by 1px, map it to ^that gif, throw in html body
     // TODO: Create html w/ headers, stick the 1x1 pixel and gif in it
-    
+    var sender = mail.from[0].address;
+    var intendedReceiver = mail.subject.trim();
+    var text = mail.text;
+    console.log("Sender: " + sender);
+    console.log("Receiver: " + JSON.stringify(intendedReceiver, null, 2));
+
     var mailOptions = {
-        from: 'Fred Foo ✔ <mchacksmymail@gmail.com>', // sender address
-        to: 'lawrencecushman@gmail.com', // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world ✔', // plaintext body
-        html: '<b>Hello world ✔</b>' // html body
+        from: sender + ' via McHacksMyMail <mchacksmymail@gmail.com>', // sender address
+        to: intendedReceiver, // list of receivers
+        subject: 'New McHackMyMail from '+ sender, // Subject line
+        //text: 'Hello world ✔', // plaintext body
+        html: '<b>'+text+'</b>' // html body
     };
 
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
             console.log(error);
         }else{
-            console.log('Message sent: ' + info.response);
+            console.log('Message sent '/* + info.response*/);
         }
     });
-    console.log(mail);}
+    console.log(JSON.stringify(mail, null, 2));;}
     ).start();
 
 // view engine setup
