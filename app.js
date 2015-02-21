@@ -10,6 +10,54 @@ var users = require('./routes/users');
 
 var app = express();
 
+// IMAP for Receiving emails
+var notifier = require('mail-notifier');
+var imap = {
+  user: "mchacksmymail",
+  password: "mchacks12345",
+  host: "imap.gmail.com",
+  port: 993, // imap port
+  tls: true,// use secure connection
+  tlsOptions: { rejectUnauthorized: false }
+};
+
+
+// SMTP for Sending Emails
+var nodemailer = require('nodemailer');
+
+// create reusable transporter object using SMTP transport
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'mchacksmymail@gmail.com',
+        pass: 'mchacks12345'
+    }
+});
+
+notifier(imap).on('mail',function(mail){
+    // TODO: Parse Receiver from subject
+    // TODO: Parse text body, generate the gif - save it somewhere 
+    // TODO: Generate UUID tag it to 1px by 1px, map it to ^that gif, throw in html body
+    // TODO: Create html w/ headers, stick the 1x1 pixel and gif in it
+    
+    var mailOptions = {
+        from: 'Fred Foo ✔ <mchacksmymail@gmail.com>', // sender address
+        to: 'lawrencecushman@gmail.com', // list of receivers
+        subject: 'Hello ✔', // Subject line
+        text: 'Hello world ✔', // plaintext body
+        html: '<b>Hello world ✔</b>' // html body
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+        }else{
+            console.log('Message sent: ' + info.response);
+        }
+    });
+    console.log(mail);}
+    ).start();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
