@@ -4,11 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var Store = require('jfs');
+var uuid = require('node-uuid');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var content = require('./routes/content')
 
 var app = express();
+var db = new Store("data",{type:'single'});
 
 // IMAP for Receiving emails
 var notifier = require('mail-notifier');
@@ -37,8 +41,15 @@ var transporter = nodemailer.createTransport({
 // Mail was Received
 notifier(imap).on('mail',function(mail){
     // TODO: Parse Receiver from subject
-    // TODO: Parse text body, generate the gif - save it somewhere 
-    // TODO: Generate UUID tag it to 1px by 1px, map it to ^that gif, throw in html body
+    // TODO: Parse text body, generate the gif - save it somewhere
+    // TODO: Generate UUID tag
+    var userid = uuid.v4();
+    // TODO: Put into database with starting flags
+    db.save(userid, {read: 0}, function(error) {
+      if(error) {
+        console.log(error);
+      }
+    });
     // TODO: Create html w/ headers, stick the 1x1 pixel and gif in it
     var sender = mail.from[0].address;
     var intendedReceiver = mail.subject.trim();
@@ -51,7 +62,8 @@ notifier(imap).on('mail',function(mail){
         to: intendedReceiver, // list of receivers
         subject: 'New McHackMyMail from '+ sender, // Subject line
         //text: 'Hello world ✔', // plaintext body
-        html: '<b>'+text+'</b>' // html body
+        //html: '<b>'+text+'</b>' // html body
+        html: '<img src=\'http://server.com/content.gif?id=' + userid + '\'>';
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -78,6 +90,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/content.gif', content);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
