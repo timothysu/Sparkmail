@@ -42,14 +42,27 @@ var transporter = nodemailer.createTransport({
 notifier(imap).on('mail',function(mail){
     // TODO: Parse Receiver from subject
     // TODO: Parse text body, generate the gif - save it somewhere
-    // TODO: Generate UUID tag
+    
     var userid = uuid.v4();
     // TODO: Put into database with starting flags
-    db.save(userid, {read: 0}, function(error) {
+    db.save(userid, {read: false}, function(error) {
       if(error) {
         console.log(error);
       }
     });
+
+    db.save('allthepuppies', {read:false}, function(error){
+      if(error) {
+        console.log(error);
+      }
+    });
+
+    db.save('dawwwwwww', {read:false}, function(error){
+      if(error) {
+        console.log(error);
+      }
+    });
+
     // TODO: Create html w/ headers, stick the 1x1 pixel and gif in it
     var sender = mail.from[0].address;
     var intendedReceiver = mail.subject.trim();
@@ -63,7 +76,7 @@ notifier(imap).on('mail',function(mail){
         subject: 'New McHackMyMail from '+ sender, // Subject line
         //text: 'Hello world ✔', // plaintext body
         //html: '<b>'+text+'</b>' // html body
-        html: '<img src=\'http://server.com/content.gif?id=' + userid + '\'>';
+        html: "<img src='http://localhost:3000/content.gif?id=" + "allthepuppies" + "'>"
     };
 
     transporter.sendMail(mailOptions, function(error, info){

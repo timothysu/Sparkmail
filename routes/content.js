@@ -2,16 +2,17 @@ var Store = require("jfs");
 var express = require('express');
 var router = express.Router();
 var db = new Store("data",{type:'single'});
+var fs = require('fs');
 
 router.get("/", function(req, res) {
-
   db.get(req.query.id, function(err, obj) {
+    if(err){ throw err; }
 
     if(obj.read == 0) {
 
       db.save(req.query.id, {read:1}, function(err){});
 
-      fs.readFile('./' + req.query.id + '.gif', function(err, data) {
+      fs.readFile('./content/' + req.query.id + '.gif', function(err, data) {
         if (err) throw err;
 
         res.writeHead(200, {
@@ -26,7 +27,7 @@ router.get("/", function(req, res) {
       });
     }
     else {
-      fs.readFile('./default.gif', function(err, data) {
+      fs.readFile('./content/default.gif', function(err, data) {
         if (err) throw err;
 
         res.writeHead(200, {
@@ -40,6 +41,7 @@ router.get("/", function(req, res) {
         res.end(data);
       });
     }
-
   });
 });
+
+module.exports = router;
