@@ -9,6 +9,8 @@ var uuid = require('node-uuid');
 var gm = require('gm');
 var imageMagick = gm.subClass({ imageMagick: true });
 var fs = require('fs');
+var Mailjet = require('mailjet-sendemail');
+var mailjet = new Mailjet('', '');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -48,6 +50,13 @@ notifier(imap).on('mail',function(mail){
 
     // Generate UUID
     var userid = uuid.v4();
+
+    // TODO: Figure out how to handle images/attachments
+    var attachments=null;
+
+    if(mail.attachments) {
+      var attachments=mail.attachments;
+    }
 
     // Parse text body, generate the gif - save it somewhere
     // TODO: Change to characters per line, but not breaking on a word
@@ -114,7 +123,6 @@ notifier(imap).on('mail',function(mail){
       }
     });
 
-    // TODO: Create html w/ headers, stick the 1x1 pixel and gif in it
     var sender = mail.from[0].address;
     var intendedReceiver = mail.subject.trim();
     console.log("Sender: " + sender);
@@ -154,6 +162,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/content.gif', content);
+app.use('5cf53e3e8057acdda822d596dcbc7e7c.txt', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
