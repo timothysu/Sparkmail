@@ -6,7 +6,7 @@ var paintText = require('./js/paintText');
 
 /* Draw text to base image */
 console.log("trying paintText...");
-paintText(gm, 'C:/Users/Nick/Github/canadia/public/img/textBase.png', 'hello world', 12, 6);
+paintText(gm, './content/textBase.png', 'hello world', 12, 6);
 
 /* GET home page. */
 router.get('/', function(req, res) {
