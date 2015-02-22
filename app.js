@@ -69,10 +69,15 @@ notifier(imap).on('mail',function(mail){
       }
     var newText = newArray.join(' ');
     //newText = newText.replace(/,/g , " ");
-    fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '2temp.gif'));
+    fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '3temp.gif'));
     if(height < 350) {
       height = 350;
     }
+      imageMagick(480, height, "#FFFFFF").write("./content/" + userid + "2temp.gif", function (err) {
+        if(err) {
+          console.log(err);
+        }
+      };
           imageMagick(480, height, "#FFFFFF")
           .font('n021003l.pfb')
           .fontSize(fontSize)
