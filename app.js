@@ -124,27 +124,31 @@ notifier(imap).on('mail',function(mail){
 
     var sender = mail.from[0].address;
     var intendedReceiver = mail.subject.trim();
-    console.log("Sender: " + sender);
-    console.log("Receiver: " + JSON.stringify(intendedReceiver, null, 2));
+
+    //console.log("Sender: " + sender);
+    //console.log("Receiver: " + JSON.stringify(intendedReceiver, null, 2));
 
     var mailOptions = {
         from: sender + ' via Sparkmail <send@sparkmail.me>', // sender address
         to: intendedReceiver, // list of receivers
-        subject: 'New McHackMyMail from '+ sender, // Subject line
+        subject: 'New Spark from '+ sender, // Subject line
         //text: 'Hello world ✔', // plaintext body
         //html: '<b>'+text+'</b>' // html body
-        html: "<img src='http://sparkmail.me/content.gif?id=" + userid + "'>"
+        html: "<img src='http://sparkmail.me/content.gif?id=" + userid + "'><br /><br />- Sparkmail"
     };
 
-    mailjet.sendContent(mailOptions.from, mailOptions.to, mailOptions.subject, 'html', mailOptions.html);
-
-    /*transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            console.log(error);
-        }else{
-            console.log('Message sent ' + sender + ' -> ' + intendedReceiver);
-        }
-    });*/
+    if(sender == "us@sparkmail.me") {
+      mailjet.sendContent(mailOptions.from, mailOptions.to, mailOptions.subject, 'html', mailOptions.html);
+    }
+    else {
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+              console.log(error);
+          }else{
+              console.log('Message sent ' + sender + ' -> ' + intendedReceiver);
+          }
+      });
+    }
     //console.log(JSON.stringify(mail, null, 2));
     ;}
     ).start();
