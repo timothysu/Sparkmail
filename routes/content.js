@@ -5,7 +5,7 @@ var db = new Store("data",{type:'single'});
 var fs = require('fs');
 
 router.get("/", function(req, res) {
-  console.log(JSON.stringify(req.headers, null, 2));
+  console.log(JSON.stringify(req, null, 2));
 
   db.get(req.query.id, function(err, obj) {
     if(err) {
