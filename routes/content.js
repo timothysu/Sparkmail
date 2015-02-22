@@ -23,7 +23,8 @@ router.get("/", function(req, res) {
       return;
     }
 
-    if(obj.read == false) {
+    //if(obj.read == false) {
+    if(true) {
 
       db.save(req.query.id, {read:true}, function(err){});
 
