@@ -52,6 +52,7 @@ notifier(imap).on('mail',function(mail){
     // Parse text body, generate the gif - save it somewhere
     // TODO: Change to characters per line, but not breaking on a word
     var text = mail.text;
+    var totalTime = 5;
     var x = 15,
 			  y = 40,
 			  wrdsPerLine = 12
@@ -91,7 +92,7 @@ notifier(imap).on('mail',function(mail){
               console.log(err);
             }
             if(n==5) {
-              imageMagick("./content/" + userid + "*temp.gif").loop('1').set('delay',600)
+              imageMagick("./content/" + userid + "*temp.gif").loop('1').set('delay',100)
               .write("./content/" + userid + ".gif", function (err) {
                 if(err) {
                   console.log(err)
