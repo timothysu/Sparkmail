@@ -73,13 +73,13 @@ notifier(imap).on('mail',function(mail){
           .font('n021003l.pfb')
           .fontSize(fontSize)
           .drawText(x, y, newText)
-          .write("./content/" + userid + ".gif", function (err) {
+          .write("./content/" + userid + "temp.gif", function (err) {
             if(err) {
               console.log(err);
             }
           });
 
-      imageMagick("./content/" + userid + ".gif").delay(500).loop(0)
+      imageMagick("./content/" + userid + "temp.gif").delay(500).loop(0)
       .append("./content/default.gif").write("./content/" + userid + ".gif", function (err) {
         if(err) {
           console.log(err)
