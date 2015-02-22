@@ -53,8 +53,8 @@ notifier(imap).on('mail',function(mail){
     // TODO: Change to characters per line, but not breaking on a word
     var text = mail.text;
     var x = 15,
-			  y = 30,
-			  wrdsPerLine = 9
+			  y = 40,
+			  wrdsPerLine = 12
         fontSize = 16;
     var wrdArray = text.split(' ');
     var wrdCount = wrdArray.length,
@@ -62,31 +62,32 @@ notifier(imap).on('mail',function(mail){
 			height = lines*70;
       var newArray = [];
       for (var i=0,  tot=wrdArray.length; i < tot; i++) {
-        if(i % 9 == 0 && i != 0) {
+        if(i % 12 == 0 && i != 0) {
           newArray.push("\n\n");
         }
         newArray.push(wrdArray[i]); //"aa", "bb"
       }
     var newText = newArray.join(' ');
     //newText = newText.replace(/,/g , " ");
-    fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '3temp.gif'));
+    fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '7temp.gif'));
     if(height < 350) {
       height = 350;
     }
-      imageMagick(480, height, "#FFFFFF").write("./content/" + userid + "2temp.gif", function (err) {
+      imageMagick(540, height, "#FFFFFF").write("./content/" + userid + "6temp.gif", function (err) {
         if(err) {
           console.log(err);
         }
-      });
-          imageMagick(480, height, "#FFFFFF")
+      }) ;
+          imageMagick(540, height, "#FFFFFF")
           .font('n021003l.pfb')
           .fontSize(fontSize)
           .drawText(x, y, newText)
+          .drawText(500, 25, "5")
           .write("./content/" + userid + "1temp.gif", function (err) {
             if(err) {
               console.log(err);
             }
-            imageMagick("./content/" + userid + "*temp.gif").loop('1').set('delay',500)
+            imageMagick("./content/" + userid + "*temp.gif").loop('1').set('delay',600)
             .write("./content/" + userid + ".gif", function (err) {
               if(err) {
                 console.log(err)
