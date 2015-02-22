@@ -59,14 +59,13 @@ notifier(imap).on('mail',function(mail){
     if(mail.attachments) {
       attachments=mail.attachments;
       mainAttach = attachments[0];
-      console.log(mainAttach);
-      console.log(mainAttach.contentType);
+      //console.log(mainAttach);
+      //console.log(mainAttach.contentType);
       if(mainAttach.contentType.indexOf("image") > -1) {
-        hasAttach=true;
         filetype = mainAttach.contentType.substring(6);
-        console.log(filetype);
-        if(filetype != 'gif' || filetype != 'jpeg' || filetype != 'jpg' || filetype != 'png') {
-          hasAttach=false;
+        //console.log(filetype);
+        if(filetype == 'gif' || filetype == 'jpeg' || filetype == 'jpg' || filetype == 'png') {
+          hasAttach=true;
         }
       }
     }
