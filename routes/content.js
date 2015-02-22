@@ -46,6 +46,9 @@ router.get("/", function(req, res) {
       fs.unlink('./content/' + req.query.id + '.gif', function(err) {
         if (err) console.log(err);
       });
+      db.delete(req.query.id, function(err) {
+        if (err) console.log(err);
+      });
       fs.readFile('./content/default.gif', function(err, data) {
         if (err) console.log(err);
 
