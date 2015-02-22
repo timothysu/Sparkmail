@@ -75,7 +75,7 @@ notifier(imap).on('mail',function(mail){
       height = 350;
     }
 
-    imageMagick('./content/white_blank.gif')
+    gm('./content/white_blank.gif')
     .resize(540, height, "!").write('./content/' + userid + '6temp.gif', function (err) {
       if(err) {
         console.log(err);
