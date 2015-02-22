@@ -92,8 +92,14 @@ notifier(imap).on('mail',function(mail){
     var newText = newArray.join(' ');
     //newText = newText.replace(/,/g , " ");
 
+    if(height < 350) {
+      height = 350;
+    }
+
+    fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '3raw.gif'));
+
     gm('./content/white_blank.gif')
-    .resize(540, height, "!").write('./content/' + userid + '6temp.gif', function (err) {
+    .resize(540, 1000, "!").write('./content/' + userid + '6temp.gif', function (err) {
       if(err) {
         console.log(err);
       }
@@ -101,10 +107,6 @@ notifier(imap).on('mail',function(mail){
         fs.createReadStream('./content/' + userid + '6temp.gif').pipe(fs.createWriteStream('./content/' + userid + '2raw.gif'));
       }
     });
-
-    if(height < 350) {
-      height = 350;
-    }
 
     if(hasAttach) {
         fs.writeFile('./content/' + userid + '1toe.' + filetype,
