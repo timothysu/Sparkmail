@@ -97,11 +97,19 @@ notifier(imap).on('mail',function(mail){
     }
 
     if(hasAttach) {
-        fs.writeFileSync('./content/' + userid + 'raw.' + filetype, new Buffer(mainAttach.content, "base64"), function(err) {});
-        gm('./content/' + userid + 'raw.' + filetype)
-        .resize(540, height).write('./content/' + userid + 'pic.gif', function (err) {
+        fs.writeFile('./content/' + userid + 'raw.' + filetype,
+        new Buffer(mainAttach.content, "base64"), function(err) {
           if(err) {
             console.log(err);
+            hasAttach = false;
+          }
+          else {
+            gm('./content/' + userid + 'raw.' + filetype)
+            .resize(540, height).write('./content/' + userid + 'pic.gif', function (err) {
+              if(err) {
+                console.log(err);
+              }
+            });
           }
         });
     }
