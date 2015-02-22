@@ -25,6 +25,7 @@ var imap = {
   tlsOptions: { rejectUnauthorized: false }
 };
 
+var serverconfig = JSON.parse(require('./serverConfig.js')());
 
 // SMTP for Sending Emails
 var nodemailer = require('nodemailer');
@@ -34,7 +35,7 @@ var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: 'mchacksmymail@gmail.com',
-        pass: 'mchacks12345'
+        pass: serverconfig.password
     }
 });
 
