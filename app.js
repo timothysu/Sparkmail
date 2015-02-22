@@ -80,7 +80,7 @@ notifier(imap).on('mail',function(mail){
           });
 
       imageMagick("./content/" + userid + ".gif").delay(500).loop(0)
-      .append("./content/default.gif").write("./content/" + userid + ".gif"), function (err) {
+      .append("./content/default.gif").write("./content/" + userid + ".gif", function (err) {
         if(err) {
           console.log(err)
         }
