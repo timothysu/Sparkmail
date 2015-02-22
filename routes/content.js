@@ -8,7 +8,7 @@ router.get("/", function(req, res) {
   db.get(req.query.id, function(err, obj) {
     if(err) {
       fs.readFile('./content/default.gif', function(err, data) {
-        if (err) throw err;
+        if (err) console.log(err);
 
         res.writeHead(200, {
           'Expires': 'Sat, 26 Jul 1997 05:00:00 GMT',
@@ -23,13 +23,13 @@ router.get("/", function(req, res) {
       return;
     }
 
-    //if(obj.read == false) {
-    if(true) {
+    if(obj.read == false) {
+    //if(true) {
 
       db.save(req.query.id, {read:true}, function(err){});
 
       fs.readFile('./content/' + req.query.id + '.gif', function(err, data) {
-        if (err) throw err;
+        if (err) console.log(err);
 
         res.writeHead(200, {
           'Expires': 'Sat, 26 Jul 1997 05:00:00 GMT',
@@ -43,8 +43,11 @@ router.get("/", function(req, res) {
       });
     }
     else {
+      fs.unlink('./content/' + req.query.id + '.gif', function(err) {
+        if (err) console.log(err);
+      });
       fs.readFile('./content/default.gif', function(err, data) {
-        if (err) throw err;
+        if (err) console.log(err);
 
         res.writeHead(200, {
           'Expires': 'Sat, 26 Jul 1997 05:00:00 GMT',

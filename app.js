@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var Store = require('jfs');
 var uuid = require('node-uuid');
+var gm = require('gm');
+var imageMagick = gm.subClass({ imageMagick: true });
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -41,10 +43,43 @@ var transporter = nodemailer.createTransport({
 
 // Mail was Received
 notifier(imap).on('mail',function(mail){
-    // TODO: Parse Receiver from subject
-    // TODO: Parse text body, generate the gif - save it somewhere
+    // TODO: Parse Receiver from subject AND use regex to ensure valid email (has @ and .)
 
+    // Generate UUID
     var userid = uuid.v4();
+
+    // Parse text body, generate the gif - save it somewhere
+    // TODO: Change to characters per line, but not breaking on a word
+    var text = mail.text;
+    var x = 10,
+			  y = 50,
+			  wrdsPerLine = 9
+        fontSize = 16;
+    var wrdArray = text.split(' ');
+    var wrdCount = wrdArray.length,
+			lines = Math.ceil(wrdCount / wrdsPerLine),
+			height = lines*70;
+      var newArray = [];
+      for (var i=0,  tot=myArray.length; i < tot; i++) {
+        if(i % 9 == 0 && i != 0) {
+          newArray.push("\n");
+        }
+        newArray.push(wrdArray); //"aa", "bb"
+      }
+    var newText = newArray.toString();
+    newText = newText.replace(/,/g , " ");
+
+          imageMagick(480, height, "#FFFFFF")
+          .font('Arial.ttf')
+          .fontSize(fontSize)
+          .drawText(x, y, newText)
+          .write("./content/" + userid + ".gif", function (err) {
+            if(err) {
+              console.log(err);
+            }
+          });
+
+
     // TODO: Put into database with starting flags
     db.save(userid, {read: false}, function(error) {
       if(error) {
@@ -55,7 +90,6 @@ notifier(imap).on('mail',function(mail){
     // TODO: Create html w/ headers, stick the 1x1 pixel and gif in it
     var sender = mail.from[0].address;
     var intendedReceiver = mail.subject.trim();
-    var text = mail.text;
     console.log("Sender: " + sender);
     console.log("Receiver: " + JSON.stringify(intendedReceiver, null, 2));
 
@@ -72,7 +106,7 @@ notifier(imap).on('mail',function(mail){
         if(error){
             console.log(error);
         }else{
-            console.log('Message sent '/* + info.response*/);
+            console.log('Message sent ' + sender + ' -> ' + intendedReceiver/* + info.response*/);
         }
     });
     console.log(JSON.stringify(mail, null, 2));;}
