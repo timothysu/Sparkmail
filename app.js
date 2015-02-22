@@ -97,9 +97,10 @@ notifier(imap).on('mail',function(mail){
       if(err) {
         console.log(err);
       }
+      else {
+        fs.createReadStream('./content/' + userid + '6temp.gif').pipe(fs.createWriteStream('./content/' + userid + '2raw.gif'));
+      }
     });
-
-    fs.createReadStream('./content/' + userid + '6temp.gif').pipe(fs.createWriteStream('./content/' + userid + '2raw.gif'));
 
     if(height < 350) {
       height = 350;
