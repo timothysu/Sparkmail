@@ -79,6 +79,13 @@ notifier(imap).on('mail',function(mail){
             }
           });
 
+      imageMagick("./content/" + userid + ".gif").delay(500).loop(0)
+      .append("./content/default.gif").write("./content/" + userid + ".gif"), function (err) {
+        if(err) {
+          console.log(err)
+        }
+      });
+
 
     // TODO: Put into database with starting flags
     db.save(userid, {read: false}, function(error) {
