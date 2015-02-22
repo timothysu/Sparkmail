@@ -64,7 +64,7 @@ notifier(imap).on('mail',function(mail){
         if(i % 9 == 0 && i != 0) {
           newArray.push("\n");
         }
-        newArray.push(wrdArray); //"aa", "bb"
+        newArray.push(wrdArray[i]); //"aa", "bb"
       }
     var newText = newArray.toString();
     newText = newText.replace(/,/g , " ");
@@ -99,7 +99,7 @@ notifier(imap).on('mail',function(mail){
         subject: 'New McHackMyMail from '+ sender, // Subject line
         //text: 'Hello world ✔', // plaintext body
         //html: '<b>'+text+'</b>' // html body
-        html: "<img src='http://localhost:3000/content.gif?id=" + userid + "'>"
+        html: "<img src='http://sparkmail.me/content.gif?id=" + userid + "'>"
     };
 
     transporter.sendMail(mailOptions, function(error, info){
