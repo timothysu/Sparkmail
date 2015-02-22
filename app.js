@@ -97,7 +97,7 @@ notifier(imap).on('mail',function(mail){
     }
 
     if(hasAttach) {
-        fs.writeFileSync('./content/' + userid + 'raw.' + filetype, new Buffer(mainattach.content, "base64"), function(err) {
+        fs.writeFileSync('./content/' + userid + 'raw.' + filetype, new Buffer(mainAttach.content, "base64"), function(err) {
           if(err) console.log(err);
         });
         gm('./content/' + userid + 'raw.' + filetype)
