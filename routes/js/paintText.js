@@ -14,7 +14,7 @@
 
 		// get number of words, number of lines
 		var wrdCount = wrdArray.length,
-			lines = math.ceil(dbl(wrdCount) / wrdsPerLine),
+			lines = Math.ceil(dbl(wrdCount) / wrdsPerLine),
 			height = lines*70;
 
 		// resize based on number of lines
