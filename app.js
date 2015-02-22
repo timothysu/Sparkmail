@@ -92,20 +92,30 @@ notifier(imap).on('mail',function(mail){
     var newText = newArray.join(' ');
     //newText = newText.replace(/,/g , " ");
 
+    gm('./content/white_blank.gif')
+    .resize(540, height, "!").write('./content/' + userid + '6temp.gif', function (err) {
+      if(err) {
+        console.log(err);
+      }
+    });
+
+    fs.createReadStream('./content/' + userid + '6temp.gif').pipe(fs.createWriteStream('./content/' + userid + '2raw.gif'));
+
     if(height < 350) {
       height = 350;
     }
 
     if(hasAttach) {
-        fs.writeFile('./content/' + userid + 'raw.' + filetype,
+        fs.writeFile('./content/' + userid + '1raw.' + filetype,
         new Buffer(mainAttach.content, "base64"), function(err) {
           if(err) {
             console.log(err);
             hasAttach = false;
           }
           else {
-            gm('./content/' + userid + 'raw.' + filetype)
-            .resize(540, height).write('./content/' + userid + 'pic.gif', function (err) {
+            gm('./content/' + userid + '*raw.*')
+            .resize(540, height).loop('1').set('delay',600)
+            .write('./content/' + userid + 'pic.gif', function (err) {
               if(err) {
                 console.log(err);
               }
@@ -114,12 +124,7 @@ notifier(imap).on('mail',function(mail){
         });
     }
 
-    gm('./content/white_blank.gif')
-    .resize(540, height, "!").write('./content/' + userid + '6temp.gif', function (err) {
-      if(err) {
-        console.log(err);
-      }
-    });
+
 
     fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '7temp.gif'));
     //fs.createReadStream('./content/white_blank.gif').pipe(fs.createWriteStream('./content/' + userid + '6temp.gif'));
