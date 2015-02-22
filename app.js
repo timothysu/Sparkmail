@@ -81,7 +81,7 @@ notifier(imap).on('mail',function(mail){
             if(err) {
               console.log(err);
             }
-            imageMagick("./content/" + userid + "*temp.gif").loop('3').set('delay',600)
+            imageMagick("./content/" + userid + "*temp.gif").loop('1').set('delay',500)
             .write("./content/" + userid + ".gif", function (err) {
               if(err) {
                 console.log(err)
