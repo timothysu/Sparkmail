@@ -19,7 +19,7 @@
 
 		// resize based on number of lines
         // debug:: new image written to /public/img/2
-		gm(baseImgPath).resize(480, height).write('./content/2.gif',
+		gm(baseImgPath).resize(480, height, "!").write('./content/2.gif',
                                                                function(e){
             if (!e)
                 console.log('good');
