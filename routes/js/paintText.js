@@ -1,8 +1,5 @@
 
-	var paintText = function(gm, baseImgPath, incomingTxt, fontSize, spaceSize) {
-
-        console.log("paintText called");
-
+var paintText = function(gm, baseImgPath, incomingTxt, fontSize, spaceSize) {
 
         // starting pos of first text line, number of words per line
 		var x = 10,
@@ -26,7 +23,7 @@
 				gm(baseImgPath).font('Arial.ttf').fontSize(14).fill("#000000").drawText(x, y, wrdArray[j]).write('./content/2.gif',
                                                                function(e){
             if (!e)
-                console.log('good');
+                console.log(wrdArray[j]);
             else
                 console.log(e);
         });;
