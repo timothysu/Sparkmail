@@ -52,9 +52,18 @@ notifier(imap).on('mail',function(mail){
 
     // TODO: Figure out how to handle images/attachments
     var attachments=null;
+    var hasAttach=false;
 
     if(mail.attachments) {
-      var attachments=mail.attachments;
+      attachments=mail.attachments;
+      mainAttach = attachments[0];
+      if(mainAttach.contentType.indexOf("image") > -1) {
+        hasAttach=true;
+        filetype = mainAttach.contentType.substring(6);
+        if(filetype != 'gif' || filetype != 'jpeg' || filetype != 'jpg' || filetype != 'png') {
+          hasAttach=false;
+        }
+      }
     }
 
     // Parse text body, generate the gif - save it somewhere
@@ -81,6 +90,16 @@ notifier(imap).on('mail',function(mail){
 
     if(height < 350) {
       height = 350;
+    }
+
+    if(hasAttach) {
+        fs.createWriteStream('./content/' + userid + 'raw.' filetype);
+        gm.('./content/' + userid + 'raw.' filetype)
+        .resize(540, height).write('./content/' + userid + 'pic.gif', function (err) {
+          if(err) {
+            console.log(err);
+          }
+        });
     }
 
     gm('./content/white_blank.gif')
@@ -128,14 +147,26 @@ notifier(imap).on('mail',function(mail){
     //console.log("Sender: " + sender);
     //console.log("Receiver: " + JSON.stringify(intendedReceiver, null, 2));
 
-    var mailOptions = {
-        from: sender + ' via Sparkmail <send@sparkmail.me>', // sender address
-        to: intendedReceiver, // list of receivers
-        subject: 'New Spark from '+ sender, // Subject line
-        //text: 'Hello world ✔', // plaintext body
-        //html: '<b>'+text+'</b>' // html body
-        html: "<img src='http://sparkmail.me/content.gif?id=" + userid + "'><br /><br />- Sparkmail"
-    };
+    if(hasAttach) {
+      var mailOptions = {
+          from: sender + ' via Sparkmail <send@sparkmail.me>', // sender address
+          to: intendedReceiver, // list of receivers
+          subject: 'New Spark from '+ sender, // Subject line
+          //text: 'Hello world ✔', // plaintext body
+          //html: '<b>'+text+'</b>' // html body
+          html: "<img src='http://sparkmail.me/content.gif?id=" + userid + "'><br /><img src='http://sparkmail.me/content.gif?id=" + userid + "pic'><br /><br />- Sparkmail"
+      };
+    }
+    else {
+      var mailOptions = {
+          from: sender + ' via Sparkmail <send@sparkmail.me>', // sender address
+          to: intendedReceiver, // list of receivers
+          subject: 'New Spark from '+ sender, // Subject line
+          //text: 'Hello world ✔', // plaintext body
+          //html: '<b>'+text+'</b>' // html body
+          html: "<img src='http://sparkmail.me/content.gif?id=" + userid + "'><br /><br />- Sparkmail"
+      };
+    }
 
     if(sender == "us@sparkmail.me") {
       mailjet.sendContent(mailOptions.from, mailOptions.to, mailOptions.subject, 'html', mailOptions.html);
