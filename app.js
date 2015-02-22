@@ -8,6 +8,7 @@ var Store = require('jfs');
 var uuid = require('node-uuid');
 var gm = require('gm');
 var imageMagick = gm.subClass({ imageMagick: true });
+var fs = require('fs');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -68,23 +69,25 @@ notifier(imap).on('mail',function(mail){
       }
     var newText = newArray.join(' ');
     //newText = newText.replace(/,/g , " ");
-
+    fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '2temp.gif'));
+    if(height < 350) {
+      height = 350;
+    }
           imageMagick(480, height, "#FFFFFF")
           .font('n021003l.pfb')
           .fontSize(fontSize)
           .drawText(x, y, newText)
-          .write("./content/" + userid + "temp.gif", function (err) {
+          .write("./content/" + userid + "1temp.gif", function (err) {
             if(err) {
               console.log(err);
             }
+            imageMagick("./content/" + userid + "*temp.gif").delay(500).loop('0')
+            .write("./content/" + userid + ".gif", function (err) {
+              if(err) {
+                console.log(err)
+              }
+            });
           });
-
-      imageMagick("./content/" + userid + "temp.gif").delay(500).loop(0)
-      .imageMagick("./content/default.gif").write("./content/" + userid + ".gif", function (err) {
-        if(err) {
-          console.log(err)
-        }
-      });
 
 
     // TODO: Put into database with starting flags
