@@ -24,3 +24,8 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
+
+# security
+data.json
+serverConfig.js
+

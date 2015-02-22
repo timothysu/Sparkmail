@@ -4,11 +4,79 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var Store = require('jfs');
+var uuid = require('node-uuid');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var content = require('./routes/content')
 
 var app = express();
+var db = new Store("data",{type:'single'});
+
+// IMAP for Receiving emails
+var notifier = require('mail-notifier');
+var imap = {
+  user: "mchacksmymail",
+  password: "mchacks12345",
+  host: "imap.gmail.com",
+  port: 993, // imap port
+  tls: true,// use secure connection
+  tlsOptions: { rejectUnauthorized: false }
+};
+
+var serverconfig = JSON.parse(require('./serverConfig.js')());
+
+// SMTP for Sending Emails
+var nodemailer = require('nodemailer');
+
+// create reusable transporter object using SMTP transport
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'mchacksmymail@gmail.com',
+        pass: serverconfig.password
+    }
+});
+
+// Mail was Received
+notifier(imap).on('mail',function(mail){
+    // TODO: Parse Receiver from subject
+    // TODO: Parse text body, generate the gif - save it somewhere
+
+    var userid = uuid.v4();
+    // TODO: Put into database with starting flags
+    db.save(userid, {read: false}, function(error) {
+      if(error) {
+        console.log(error);
+      }
+    });
+
+    // TODO: Create html w/ headers, stick the 1x1 pixel and gif in it
+    var sender = mail.from[0].address;
+    var intendedReceiver = mail.subject.trim();
+    var text = mail.text;
+    console.log("Sender: " + sender);
+    console.log("Receiver: " + JSON.stringify(intendedReceiver, null, 2));
+
+    var mailOptions = {
+        from: sender + ' via McHacksMyMail <mchacksmymail@gmail.com>', // sender address
+        to: intendedReceiver, // list of receivers
+        subject: 'New McHackMyMail from '+ sender, // Subject line
+        //text: 'Hello world ✔', // plaintext body
+        //html: '<b>'+text+'</b>' // html body
+        html: "<img src='http://localhost:3000/content.gif?id=" + userid + "'>"
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+        }else{
+            console.log('Message sent '/* + info.response*/);
+        }
+    });
+    console.log(JSON.stringify(mail, null, 2));;}
+    ).start();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +92,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/content.gif', content);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
