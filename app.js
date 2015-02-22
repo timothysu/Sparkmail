@@ -71,15 +71,11 @@ notifier(imap).on('mail',function(mail){
     var newText = newArray.join(' ');
     //newText = newText.replace(/,/g , " ");
     fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '7temp.gif'));
+    fs.createReadStream('./content/white_blank.gif').pipe(fs.createWriteStream('./content/' + userid + '6temp.gif'));
     if(height < 350) {
       height = 350;
     }
-      imageMagick(540, height, "#FFFFFF").write("./content/" + userid + "6temp.gif", function (err) {
-        if(err) {
-          console.log(err);
-        }
-      }) ;
-
+    
       for(var n=0; n < totalTime; n++) {
 
           imageMagick(540, height, "#FFFFFF")
