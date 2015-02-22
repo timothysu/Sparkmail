@@ -6,11 +6,26 @@ var fs = require('fs');
 
 router.get("/", function(req, res) {
   db.get(req.query.id, function(err, obj) {
-    if(err){ throw err; }
+    if(err) {
+      fs.readFile('./content/default.gif', function(err, data) {
+        if (err) throw err;
 
-    if(obj.read == 0) {
+        res.writeHead(200, {
+          'Expires': 'Sat, 26 Jul 1997 05:00:00 GMT',
+          'Last-Modified': (new Date()).toUTCString(),
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0',
+          'Pragma': 'no-cache',
+          'Content-Type': 'image/gif'
+        });
 
-      db.save(req.query.id, {read:1}, function(err){});
+        res.end(data);
+      });
+      return;
+    }
+
+    if(obj.read == false) {
+
+      db.save(req.query.id, {read:true}, function(err){});
 
       fs.readFile('./content/' + req.query.id + '.gif', function(err, data) {
         if (err) throw err;

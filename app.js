@@ -42,22 +42,10 @@ var transporter = nodemailer.createTransport({
 notifier(imap).on('mail',function(mail){
     // TODO: Parse Receiver from subject
     // TODO: Parse text body, generate the gif - save it somewhere
-    
+
     var userid = uuid.v4();
     // TODO: Put into database with starting flags
     db.save(userid, {read: false}, function(error) {
-      if(error) {
-        console.log(error);
-      }
-    });
-
-    db.save('allthepuppies', {read:false}, function(error){
-      if(error) {
-        console.log(error);
-      }
-    });
-
-    db.save('dawwwwwww', {read:false}, function(error){
       if(error) {
         console.log(error);
       }
@@ -76,7 +64,7 @@ notifier(imap).on('mail',function(mail){
         subject: 'New McHackMyMail from '+ sender, // Subject line
         //text: 'Hello world ✔', // plaintext body
         //html: '<b>'+text+'</b>' // html body
-        html: "<img src='http://localhost:3000/content.gif?id=" + "allthepuppies" + "'>"
+        html: "<img src='http://localhost:3000/content.gif?id=" + userid + "'>"
     };
 
     transporter.sendMail(mailOptions, function(error, info){
