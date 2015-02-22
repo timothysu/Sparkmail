@@ -107,18 +107,26 @@ notifier(imap).on('mail',function(mail){
     }
 
     if(hasAttach) {
-        fs.writeFile('./content/' + userid + '1raw.' + filetype,
+        fs.writeFile('./content/' + userid + '1toe.' + filetype,
         new Buffer(mainAttach.content, "base64"), function(err) {
           if(err) {
             console.log(err);
             hasAttach = false;
           }
           else {
-            gm('./content/' + userid + '*raw.*')
-            .resize(540, height).loop('1').set('delay',600)
-            .write('./content/' + userid + 'pic.gif', function (err) {
+            gm('./content/' + userid + '1toe.' + filetype)
+            .resize(540, height)
+            .write('./content/' + userid + '1raw.gif', function (err) {
               if(err) {
                 console.log(err);
+              }
+              else {
+                imageMagick("./content/" + userid + "*raw.gif").loop('1').set('delay',600)
+                .write("./content/" + userid + "pic.gif", function (err) {
+                  if(err) {
+                    console.log(err)
+                  }
+                });
               }
             });
           }
