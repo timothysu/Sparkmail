@@ -19,7 +19,7 @@
 
 		// resize based on number of lines
         // debug:: new image written to /public/img/2
-		gm(baseImgPath).resize(480, height).write('./content/2.png',
+		gm(baseImgPath).resize(480, height).write('./content/2.gif',
                                                                function(e){
             if (!e)
                 console.log('good');
@@ -30,7 +30,7 @@
 		// for each line, print out the
 		for (var i=0; i<lines; i+=wrdsPerLine) {
 			for (var j=0; j<wrdArray.length; j++) {
-				gm(baseImgPath).font('Arial.ttf').drawText(x, y, wrdArray[j]).write('./content/2.png', 
+				gm(baseImgPath).font('Arial.ttf').drawText(x, y, wrdArray[j]).write('./content/2.gif', 
                                                                function(e){
             if (!e)
                 console.log('good');
