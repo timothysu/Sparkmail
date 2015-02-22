@@ -66,8 +66,8 @@ notifier(imap).on('mail',function(mail){
         }
         newArray.push(wrdArray[i]); //"aa", "bb"
       }
-    var newText = newArray.toString();
-    newText = newText.replace(/,/g , " ");
+    var newText = newArray.join(' ');
+    //newText = newText.replace(/,/g , " ");
 
           imageMagick(480, height, "#FFFFFF")
           .font('n021003l.pfb')
