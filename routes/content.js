@@ -5,7 +5,7 @@ var db = new Store("data",{type:'single'});
 var fs = require('fs');
 
 router.get("/", function(req, res) {
-  console.log(req);
+  //console.log(req);
 
   db.get(req.query.id, function(err, obj) {
     if(err) {
@@ -25,8 +25,8 @@ router.get("/", function(req, res) {
       return;
     }
 
-    //if(obj.read == false) {
-    if(true) {
+    if(obj.read == false) {
+    //if(true) {
 
       db.save(req.query.id, {read:true}, function(err){});
 
