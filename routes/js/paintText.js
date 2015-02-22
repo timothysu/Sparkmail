@@ -26,6 +26,7 @@ var paintText = function(gm, baseImgPath, incomingTxt, fontSize, spaceSize) {
 				gm(baseImgPath).font('Arial.ttf').fontSize(14).fill("#000000").drawText(x, y, wrdArray[j]).write('./content/2.gif',
                                                                function(e){
             if (!e)
+							console.log(j);
                 console.log(wrdArray[j]);
             else
                 console.log(e);
