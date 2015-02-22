@@ -14,7 +14,7 @@
 
 		// get number of words, number of lines
 		var wrdCount = wrdArray.length,
-			lines = wrdCount / wrdsPerLine,
+			lines = math.ceil(dbl(wrdCount) / wrdsPerLine),
 			height = lines*70;
 
 		// resize based on number of lines
@@ -30,7 +30,7 @@
 		// for each line, print out the
 		for (var i=0; i<lines; i+=wrdsPerLine) {
 			for (var j=0; j<wrdArray.length; j++) {
-				gm(baseImgPath).font('Arial.ttf').drawText(x, y, wrdArray[j]).write('./content/2.gif', 
+				gm(baseImgPath).font('Arial.ttf').drawText(x, y, wrdArray[j]).write('./content/2.gif',
                                                                function(e){
             if (!e)
                 console.log('good');
