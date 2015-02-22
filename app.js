@@ -70,7 +70,7 @@ notifier(imap).on('mail',function(mail){
     newText = newText.replace(/,/g , " ");
 
           imageMagick(480, height, "#FFFFFF")
-          .font('Arial.ttf')
+          .font('n021003l.pfb')
           .fontSize(fontSize)
           .drawText(x, y, newText)
           .write("./content/" + userid + ".gif", function (err) {
