@@ -21,7 +21,7 @@ var paintText = function(gm, baseImgPath, incomingTxt, fontSize, spaceSize) {
         // debug:: new image written to /public/img/2
 
 		// for each line, print out the
-		for (var i=0; i<lines; i+=wrdsPerLine) {
+		//for (var i=0; i<lines; i+=wrdsPerLine) {
 			for (var j=0; j<wrdArray.length; j++) {
 				gm(baseImgPath).font('Arial.ttf').fontSize(14).fill("#000000").drawText(x, y, wrdArray[j]).write('./content/2.gif',
                                                                function(e){
@@ -34,8 +34,8 @@ var paintText = function(gm, baseImgPath, incomingTxt, fontSize, spaceSize) {
         });;
 				x += wrdArray[j].length*fontSize + spaceSize;
 			}
-			y += 2*fontSize;
-		}
+			//y += 2*fontSize;
+		//}
 	};
 
 // exports this module to global
