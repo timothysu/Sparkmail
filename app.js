@@ -77,7 +77,7 @@ notifier(imap).on('mail',function(mail){
         if(err) {
           console.log(err);
         }
-      };
+      });
           imageMagick(480, height, "#FFFFFF")
           .font('n021003l.pfb')
           .fontSize(fontSize)
