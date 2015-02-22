@@ -94,7 +94,7 @@ notifier(imap).on('mail',function(mail){
     console.log("Receiver: " + JSON.stringify(intendedReceiver, null, 2));
 
     var mailOptions = {
-        from: sender + ' via McHacksMyMail <mchacksmymail@gmail.com>', // sender address
+        from: sender + ' via Sparkmail <send@sparkmail.me>', // sender address
         to: intendedReceiver, // list of receivers
         subject: 'New McHackMyMail from '+ sender, // Subject line
         //text: 'Hello world ✔', // plaintext body
