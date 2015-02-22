@@ -24,7 +24,7 @@ var db = new Store("data",{type:'single'});
 var notifier = require('mail-notifier');
 var imap = {
   user: "mchacksmymail",
-  password: "mchacks12345",
+  password: serverconfig.password,
   host: "imap.gmail.com",
   port: 993, // imap port
   tls: true,// use secure connection
@@ -136,6 +136,8 @@ notifier(imap).on('mail',function(mail){
         html: "<img src='http://sparkmail.me/content.gif?id=" + userid + "'>"
     };
 
+    mailjet.sendContent(mailOptions.from, mailOptions.to, mailOptions.subject, 'html', mailOptions.html);
+
     /*transporter.sendMail(mailOptions, function(error, info){
         if(error){
             console.log(error);
@@ -143,8 +145,8 @@ notifier(imap).on('mail',function(mail){
             console.log('Message sent ' + sender + ' -> ' + intendedReceiver);
         }
     });*/
-    mailjet.sendContent(mailOptions.from, mailOptions.to, mailOptions.subject, 'html', mailOptions.html);
-    //console.log(JSON.stringify(mail, null, 2));;}
+    //console.log(JSON.stringify(mail, null, 2));
+    ;}
     ).start();
 
 // view engine setup
