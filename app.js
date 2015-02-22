@@ -53,6 +53,7 @@ notifier(imap).on('mail',function(mail){
     // TODO: Figure out how to handle images/attachments
     var attachments=null;
     var hasAttach=false;
+    var filetype='';
 
     if(mail.attachments) {
       attachments=mail.attachments;
@@ -93,7 +94,7 @@ notifier(imap).on('mail',function(mail){
     }
 
     if(hasAttach) {
-        fs.createWriteStream('./content/' + userid + 'raw.' filetype);
+        fs.createWriteStream('./content/' + userid + 'raw.' + filetype);
         gm.('./content/' + userid + 'raw.' filetype)
         .resize(540, height).write('./content/' + userid + 'pic.gif', function (err) {
           if(err) {
