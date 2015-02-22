@@ -96,7 +96,7 @@ notifier(imap).on('mail',function(mail){
       height = 350;
     }
 
-    fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '3raw.gif'));
+    //fs.createReadStream('./content/default.gif').pipe(fs.createWriteStream('./content/' + userid + '3raw.gif'));
 
     gm('./content/white_blank.gif')
     .resize(540, 1000, "!").write('./content/' + userid + '6temp.gif', function (err) {
