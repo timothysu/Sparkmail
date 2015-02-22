@@ -51,7 +51,7 @@ notifier(imap).on('mail',function(mail){
     // Parse text body, generate the gif - save it somewhere
     // TODO: Change to characters per line, but not breaking on a word
     var text = mail.text;
-    var x = 10,
+    var x = 15,
 			  y = 30,
 			  wrdsPerLine = 9
         fontSize = 16;
@@ -62,7 +62,7 @@ notifier(imap).on('mail',function(mail){
       var newArray = [];
       for (var i=0,  tot=wrdArray.length; i < tot; i++) {
         if(i % 9 == 0 && i != 0) {
-          newArray.push("\n");
+          newArray.push("\n\n");
         }
         newArray.push(wrdArray[i]); //"aa", "bb"
       }
