@@ -7,7 +7,10 @@ var paintText = function(gm, baseImgPath, incomingTxt, fontSize, spaceSize) {
 			wrdsPerLine = 9;
 
 		// get array of words in body
+		console.log(incomingTxt);
 		var wrdArray = incomingTxt.split(' ');
+		console.log(wrdArray[0]);
+		console.log(wrdArray[1]);
 
 		// get number of words, number of lines
 		var wrdCount = wrdArray.length,
