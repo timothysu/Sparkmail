@@ -60,7 +60,7 @@ notifier(imap).on('mail',function(mail){
 			lines = Math.ceil(wrdCount / wrdsPerLine),
 			height = lines*70;
       var newArray = [];
-      for (var i=0,  tot=myArray.length; i < tot; i++) {
+      for (var i=0,  tot=wrdArray.length; i < tot; i++) {
         if(i % 9 == 0 && i != 0) {
           newArray.push("\n");
         }
