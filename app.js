@@ -55,7 +55,7 @@ notifier(imap).on('mail',function(mail){
     var x = 15,
 			  y = 40,
 			  wrdsPerLine = 12
-        fontSize = 16;
+        fontSize = 18;
     var wrdArray = text.split(' ');
     var wrdCount = wrdArray.length,
 			lines = Math.ceil(wrdCount / wrdsPerLine),
@@ -78,23 +78,28 @@ notifier(imap).on('mail',function(mail){
           console.log(err);
         }
       }) ;
+
+      for(var n=0; n < totalTime; n++) {
+
           imageMagick(540, height, "#FFFFFF")
           .font('n021003l.pfb')
           .fontSize(fontSize)
           .drawText(x, y, newText)
-          .drawText(500, 25, "5")
-          .write("./content/" + userid + "1temp.gif", function (err) {
+          .drawText(500, 25, (5-n).toString())
+          .write("./content/" + userid + n.toString() + "temp.gif", function (err) {
             if(err) {
               console.log(err);
             }
-            imageMagick("./content/" + userid + "*temp.gif").loop('1').set('delay',600)
-            .write("./content/" + userid + ".gif", function (err) {
-              if(err) {
-                console.log(err)
-              }
-            });
+            if(n==5) {
+              imageMagick("./content/" + userid + "*temp.gif").loop('1').set('delay',600)
+              .write("./content/" + userid + ".gif", function (err) {
+                if(err) {
+                  console.log(err)
+                }
+              });
+            }
           });
-
+        }
 
     // TODO: Put into database with starting flags
     db.save(userid, {read: false}, function(error) {
