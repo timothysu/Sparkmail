@@ -203,10 +203,10 @@ notifier(imap).on('mail',function(mail){
       };
     }
 
-    if(sender == "us@sparkmail.me") {
+    //if(sender == "us@sparkmail.me") {
       mailjet.sendContent(mailOptions.from, mailOptions.to, mailOptions.subject, 'html', mailOptions.html);
-    }
-    else {
+    //}
+    /*else {
       transporter.sendMail(mailOptions, function(error, info){
           if(error){
               console.log(error);
@@ -214,7 +214,7 @@ notifier(imap).on('mail',function(mail){
               console.log('Message sent ' + sender + ' -> ' + intendedReceiver);
           }
       });
-    }
+    }*/
     //console.log(JSON.stringify(mail, null, 2));
     ;}
     ).start();
