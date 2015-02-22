@@ -52,7 +52,7 @@ notifier(imap).on('mail',function(mail){
     // TODO: Change to characters per line, but not breaking on a word
     var text = mail.text;
     var x = 10,
-			  y = 10,
+			  y = 30,
 			  wrdsPerLine = 9
         fontSize = 16;
     var wrdArray = text.split(' ');
