@@ -13,6 +13,7 @@
     "jade": "~1.8.2",
     "mailjet-sendemail": "^1.1.4",
     "morgan": "~1.5.1",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+	"gm": "~1.17.0"
   }
 }
