@@ -95,7 +95,7 @@ notifier(imap).on('mail',function(mail){
 
     if(hasAttach) {
         fs.createWriteStream('./content/' + userid + 'raw.' + filetype);
-        gm.('./content/' + userid + 'raw.' filetype)
+        gm('./content/' + userid + 'raw.' filetype)
         .resize(540, height).write('./content/' + userid + 'pic.gif', function (err) {
           if(err) {
             console.log(err);
