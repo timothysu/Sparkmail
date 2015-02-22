@@ -54,7 +54,7 @@ notifier(imap).on('mail',function(mail){
     var attachments=null;
     var hasAttach=false;
     var filetype='';
-    console.log(mail.attachments);
+    //console.log(mail.attachments);
 
     if(mail.attachments) {
       attachments=mail.attachments;
@@ -152,6 +152,13 @@ notifier(imap).on('mail',function(mail){
         console.log(error);
       }
     });
+    if(hasAttach) {
+      db.save(userid + 'pic', {read: false}, function(error) {
+        if(error) {
+          console.log(error);
+        }
+      });
+    }
 
     var sender = mail.from[0].address;
     var intendedReceiver = mail.subject.trim();
