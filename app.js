@@ -10,7 +10,8 @@ var gm = require('gm');
 var imageMagick = gm.subClass({ imageMagick: true });
 var fs = require('fs');
 var Mailjet = require('mailjet-sendemail');
-var mailjet = new Mailjet('', '');
+var serverconfig = JSON.parse(require('./serverConfig.js')());
+var mailjet = new Mailjet('8fdc575feda28f6e7ee48e3f34038b54', serverconfig.secret);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -29,8 +30,6 @@ var imap = {
   tls: true,// use secure connection
   tlsOptions: { rejectUnauthorized: false }
 };
-
-var serverconfig = JSON.parse(require('./serverConfig.js')());
 
 // SMTP for Sending Emails
 var nodemailer = require('nodemailer');
@@ -137,14 +136,15 @@ notifier(imap).on('mail',function(mail){
         html: "<img src='http://sparkmail.me/content.gif?id=" + userid + "'>"
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
+    /*transporter.sendMail(mailOptions, function(error, info){
         if(error){
             console.log(error);
         }else{
-            console.log('Message sent ' + sender + ' -> ' + intendedReceiver/* + info.response*/);
+            console.log('Message sent ' + sender + ' -> ' + intendedReceiver);
         }
-    });
-    console.log(JSON.stringify(mail, null, 2));;}
+    });*/
+    mailjet.sendContent(mailOptions.from, mailOptions.to, mailOptions.subject, 'html', mailOptions.html);
+    //console.log(JSON.stringify(mail, null, 2));;}
     ).start();
 
 // view engine setup
@@ -162,7 +162,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/content.gif', content);
-app.use('/5cf53e3e8057acdda822d596dcbc7e7c.txt', users);
+//app.use('/5cf53e3e8057acdda822d596dcbc7e7c.txt', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
